@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+assignment1/tabular_data/
+assignment1/image_data/

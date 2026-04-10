@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ML Assignment 1</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #eee; }
+  header { background: linear-gradient(135deg, #1a1a2e, #16213e);
+           padding: 30px; text-align:center; border-bottom: 2px solid #e94560; }
+  header h1 { font-size: 2em; color: #e94560; }
+  header p { color: #aaa; margin-top: 6px; }
+  .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  .card { background: #1a1a2e; border-radius: 16px; padding: 30px;
+          margin-bottom: 30px; border: 1px solid #2a2a4a; }
+  .card h2 { color: #e94560; margin-bottom: 6px; }
+  .card p.sub { color: #888; font-size: 0.9em; margin-bottom: 20px; }
+  label { display:block; margin-bottom: 5px; color: #bbb; font-size:0.9em; }
+  input[type=text], input[type=number], input[type=file] {
+    width:100%; padding:10px 14px; border-radius:8px;
+    border:1px solid #333; background:#0f0f1a; color:#eee;
+    margin-bottom:14px; font-size:0.95em; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  button { background: #e94560; color: white; padding: 12px 28px;
+           border:none; border-radius:8px; cursor:pointer;
+           font-size:1em; margin-top:6px; width:100%; }
+  button:hover { background: #c73652; }
+  .result { margin-top: 20px; padding: 16px 20px; border-radius:10px;
+            background: #0f0f1a; border-left: 4px solid #e94560; }
+  .result h3 { font-size: 1.2em; }
+  .result p { color: #aaa; margin-top:4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🤖 ML Assignment 1 — Logistic Regression</h1>
+  <p>Gold Price Prediction &amp; Brain Tumor Detection</p>
+</header>
+
+<div class="container">
+
+  <!-- Tabular Card -->
+  <div class="card">
+    <h2>📊 Gold Price Direction Predictor</h2>
+    <p class="sub">Enter today's gold market values to predict if price goes UP or DOWN tomorrow</p>
+    <form action="/predict_tabular" method="POST">
+      <div class="grid">
+        <div><label>Open Price</label><input type="number" step="any" name="open" placeholder="e.g. 1800.5" required></div>
+        <div><label>High Price</label><input type="number" step="any" name="high" placeholder="e.g. 1825.0" required></div>
+        <div><label>Low Price</label><input type="number" step="any" name="low" placeholder="e.g. 1790.0" required></div>
+        <div><label>Close Price</label><input type="number" step="any" name="close" placeholder="e.g. 1810.0" required></div>
+      </div>
+      <label>Volume</label><input type="number" step="any" name="volume" placeholder="e.g. 0" required>
+      <button type="submit">🔮 Predict Gold Direction</button>
+    </form>
+    {% if tab_result %}
+    <div class="result">
+      <h3>{{ tab_result }}</h3>
+      <p>Confidence: {{ tab_confidence }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Image Card -->
+  <div class="card">
+    <h2>🧠 Brain Tumor Detection</h2>
+    <p class="sub">Upload an MRI scan image to detect if a brain tumor is present</p>
+    <form action="/predict_image" method="POST" enctype="multipart/form-data">
+      <label>Upload MRI Image (JPG/PNG)</label>
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">🔬 Analyze MRI Scan</button>
+    </form>
+    {% if img_result %}
+    <div class="result">
+      <h3>{{ img_result }}</h3>
+      <p>Confidence: {{ img_confidence }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+</body>
+</html>

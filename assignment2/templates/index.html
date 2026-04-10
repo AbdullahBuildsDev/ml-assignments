@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ML Assignment 2</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background:#0f0f1a; color:#eee; }
+  header { background:linear-gradient(135deg,#1a1a2e,#16213e);
+           padding:30px; text-align:center; border-bottom:2px solid #e94560; }
+  header h1 { font-size:2em; color:#e94560; }
+  header p { color:#aaa; margin-top:6px; }
+  .container { max-width:960px; margin:40px auto; padding:0 20px; }
+  .card { background:#1a1a2e; border-radius:16px; padding:30px;
+          margin-bottom:30px; border:1px solid #2a2a4a; }
+  .card h2 { color:#e94560; margin-bottom:6px; }
+  .card p.sub { color:#888; font-size:0.9em; margin-bottom:20px; }
+  input[type=file] { width:100%; padding:10px; border-radius:8px;
+    border:1px solid #333; background:#0f0f1a; color:#eee; margin-bottom:14px; }
+  button { background:#e94560; color:white; padding:12px 28px;
+           border:none; border-radius:8px; cursor:pointer; font-size:1em; width:100%; }
+  button:hover { background:#c73652; }
+  .results-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:24px; }
+  .result-box { background:#0f0f1a; border-radius:12px; padding:20px; text-align:center;
+                border:2px solid #2a2a4a; }
+  .result-box h3 { color:#e94560; margin-bottom:10px; }
+  .result-box .verdict { font-size:1.1em; font-weight:bold; margin:8px 0; }
+  .result-box .conf { color:#aaa; font-size:0.9em; }
+  .cm-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:10px; }
+  .cm-grid img { width:100%; border-radius:10px; border:1px solid #2a2a4a; }
+  .cm-label { text-align:center; color:#aaa; font-size:0.85em; margin-top:6px; }
+  .compare { background:#0f0f1a; border-radius:12px; padding:20px; margin-top:20px; }
+  .compare h3 { color:#e94560; margin-bottom:12px; }
+  .compare p { color:#bbb; line-height:1.7; }
+  .error { color:#e94560; margin-top:16px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🧠 ML Assignment 2 — Brain Tumor Detection</h1>
+  <p>KNN vs Decision Tree vs Naive Bayes Comparison</p>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>🔬 Upload MRI Scan</h2>
+    <p class="sub">Upload a brain MRI image — all 3 models will analyze it simultaneously</p>
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">🚀 Run All 3 Models</button>
+    </form>
+    {% if error %}<p class="error">❌ {{ error }}</p>{% endif %}
+
+    {% if results %}
+    <div class="results-grid">
+      {% for model, data in results.items() %}
+      <div class="result-box">
+        <h3>{{ model }}</h3>
+        <div class="verdict" style="color:{{ data.color }}">{{ data.result }}</div>
+        <div class="conf">Confidence: {{ data.confidence }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>📊 Confusion Matrices</h2>
+    <p class="sub">How well each model performs on test data</p>
+    <div class="cm-grid">
+      <div><img src="/static/cm_KNN.png"><p class="cm-label">KNN — 78.43%</p></div>
+      <div><img src="/static/cm_Decision_Tree.png"><p class="cm-label">Decision Tree — 78.43%</p></div>
+      <div><img src="/static/cm_Naive_Bayes.png"><p class="cm-label">Naive Bayes — 78.43%</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏆 Model Comparison & Analysis</h2>
+    <div class="compare">
+      <h3>Why all 3 models got 78.43% accuracy?</h3>
+      <p>The dataset is small (253 images total) which limits all models equally.
+      With limited data, simpler models like Naive Bayes perform as well as complex ones like KNN and Decision Tree.<br><br>
+      <strong>How to improve accuracy:</strong><br>
+      ✅ KNN — Try different K values (3, 7, 11) and use color images instead of grayscale<br>
+      ✅ Decision Tree — Limit max_depth to avoid overfitting, add more training data<br>
+      ✅ Naive Bayes — Apply PCA to reduce noise before training<br><br>
+      <strong>Winner:</strong> KNN is preferred as it is most interpretable and stable for image classification with small datasets.
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -4,3 +4,5 @@ __pycache__/
 .DS_Store
 assignment1/tabular_data/
 assignment1/image_data/
+assignment2/image_data/
+assignment3/model/

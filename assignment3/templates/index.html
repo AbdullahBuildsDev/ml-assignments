@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ML Assignment 3</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background:#0f0f1a; color:#eee; }
+  header { background:linear-gradient(135deg,#1a1a2e,#16213e);
+           padding:30px; text-align:center; border-bottom:2px solid #e94560; }
+  header h1 { font-size:2em; color:#e94560; }
+  header p { color:#aaa; margin-top:6px; }
+  .container { max-width:700px; margin:40px auto; padding:0 20px; }
+  .card { background:#1a1a2e; border-radius:16px; padding:30px;
+          border:1px solid #2a2a4a; }
+  .card h2 { color:#e94560; margin-bottom:6px; }
+  .card p.sub { color:#888; font-size:0.9em; margin-bottom:20px; }
+  textarea { width:100%; padding:14px; border-radius:8px;
+    border:1px solid #333; background:#0f0f1a; color:#eee;
+    margin-bottom:14px; font-size:1em; resize:vertical; }
+  button { background:#e94560; color:white; padding:12px 28px;
+           border:none; border-radius:8px; cursor:pointer;
+           font-size:1em; width:100%; }
+  button:hover { background:#c73652; }
+  .result { margin-top:24px; padding:24px; border-radius:12px;
+            background:#0f0f1a; text-align:center; }
+  .result h2 { font-size:2em; margin-bottom:8px; }
+  .result p { color:#aaa; }
+  .badge { display:inline-block; padding:4px 14px; border-radius:20px;
+           font-size:0.85em; margin-top:8px; background:#2a2a4a; }
+  .model-info { margin-top:20px; padding:16px; border-radius:10px;
+                background:#0f0f1a; border-left:4px solid #e94560; }
+  .model-info p { color:#aaa; font-size:0.9em; line-height:1.7; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🤗 ML Assignment 3 — HuggingFace Model</h1>
+  <p>Pretrained Sentiment Analysis using DistilBERT</p>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>💬 Sentiment Analyzer</h2>
+    <p class="sub">Type any sentence and the AI will detect if it's Positive or Negative</p>
+    <form action="/predict" method="POST">
+      <textarea name="text" rows="4" placeholder="e.g. I love this product! It works amazingly well." required>{{ text or '' }}</textarea>
+      <button type="submit">🔍 Analyze Sentiment</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+      <h2 style="color:{{ color }}">{{ result }}</h2>
+      <p>Confidence: <strong>{{ confidence }}</strong></p>
+      <span class="badge">DistilBERT • HuggingFace</span>
+    </div>
+    {% endif %}
+
+    <div class="model-info">
+      <p><strong style="color:#e94560">About this model:</strong><br>
+      This uses <strong>DistilBERT</strong> — a pretrained transformer model from HuggingFace,
+      trained on Stanford Sentiment Treebank (SST-2) dataset with 67M parameters.
+      It was downloaded directly from HuggingFace Hub and requires zero training — 
+      this is called <em>Transfer Learning</em>.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
